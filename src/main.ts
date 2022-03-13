@@ -16,9 +16,6 @@ async function bootstrap() {
     ),
     transports: [new transports.Console()],
   });
-
-  // app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-
   await app.listen(3000);
 }
 bootstrap();
