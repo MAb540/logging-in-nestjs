@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { NestjsWinstonLoggerService } from 'nestjs-winston-logger';
 import { format, transports } from 'winston';
 
@@ -16,7 +17,7 @@ async function bootstrap() {
     transports: [new transports.Console()],
   });
 
-  app.useLogger(globalLogger);
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   await app.listen(3000);
 }
