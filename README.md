@@ -29,7 +29,7 @@ of logging.
 1. nest-winston
 2. nest-winston-logger
 
-To explore more clone the repo and switch between commits.
+To explore more clone the repo and switch between commits to see code of different practices.
 
 ## Installation
 
