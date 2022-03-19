@@ -30,6 +30,7 @@ of logging.
 2. nest-winston-logger
 
 To explore more clone the repo and switch between commits to see code of different practices.
+Http logger middle approach is configured as well
 
 ## Installation
 
