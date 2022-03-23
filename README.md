@@ -24,21 +24,22 @@
 
 ## Description
 
-This repository is a utility to explore logging in nest js. Two nest logging packages are used in this repo to explore different ways
-of logging.
+This repository is a utility to explore nest js. Here different logging packages, orms are used with to explore nest js.
 1. nest-winston
 2. nest-winston-logger
+3. TypeOrm with nest js and postgres
 
-To explore more clone the repo and switch between commits to see code of different practices.
+To explore more clone the repo and switch between different branches to exlore different practices to configuring logging and Type orm.
 
 ## Installation
-
+  Clone the repo
 ```bash
 $ npm install
 ```
+Remember when switching branch then run npm install again to get the packages used in respective branch.
+
 
 ## Running the app
-
 ```bash
 # development
 $ npm run start
@@ -50,6 +51,17 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Running the migrations
+```bash
+# generate migration  
+$ npm run migration:generate
+
+# run migration
+$ npm run migration:run
+
+# revert migration
+$ npm revert migration 
+```
 
 ## License
 
