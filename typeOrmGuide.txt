@@ -4,6 +4,14 @@ Two ways to configure TypeOrm with nest js:
 2. create a ormconfig.json file at root level and call TypeOrm.forRoot() in app.moudles.
 
 ##  one way
+  Using config object in Module.forRoot() in app.moudles.js. This is feasiable when using different environments.
+  Create a config file and export a typeOrm config object configured according to environment and use it in Module.forRoot() in 
+  app.moudles.js.
+
+  --Note: when using this approach, we will need to explicitly set the typeOrm.config.js/ts path in package.json file to run migrations.
+    Example:
+        line no: 30 is migration commands section will look like this.
+          "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js --config src/configs/typeorm.config.ts"
 
 
 ##  second way
@@ -17,6 +25,8 @@ Two ways to configure TypeOrm with nest js:
           }
 
 
+
+## Migrations Section
 ## The command below will be added in package.json for migrations.
 
   "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",          // to locate typeorm in node_modules
