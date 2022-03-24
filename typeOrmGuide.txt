@@ -4,6 +4,12 @@ Two ways to configure TypeOrm with nest js:
 2. create a ormconfig.json file at root level and call TypeOrm.forRoot() in app.moudles.
 
 ##  one way
+
+  These articles are great to have a look if you want to save some time.
+    https://www.ronenagranat.com/2021-03-01/nestjs-typeorm-environment-config-migration.html
+    https://dev.to/raphael_haecker/nestjs-and-typeorm-database-configuration-15ob
+
+
   Using config object in Module.forRoot() in app.moudles.js. This is feasiable when using different environments.
   Create a config file and export a typeOrm config object configured according to environment and use it in Module.forRoot() in 
   app.moudles.js.
