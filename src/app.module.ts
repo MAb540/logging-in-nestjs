@@ -1,31 +1,30 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { WinstonModule } from 'nest-winston';
-import { format, transports } from 'winston';
 import { UserModule } from './modules/user.module';
-import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import { HttpRequestLogger } from './middlewares/HttpLogging.middleware';
+import { loggingConfigObj } from './configs/generalConfigs';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import ormConfig from './configs/typeorm.config';
 
+/*
+   This approach can be used to configure typeOrm as well.
+   This approach is a way to configure typeOrm using a nest specific configuration service but it will not work when using migrations,
+   because typeorm can not locate the path of PostgresConfigService file
+ */
+// TypeOrmModule.forRootAsync({
+//   useClass: PostgresConfigService,
+//   inject: [PostgresConfigService],
+// })
 @Module({
   imports: [
-    WinstonModule.forRoot({
-      level: 'info',
-      format: format.combine(
-        format.timestamp({ format: 'isoDateTime' }),
-        format.ms(),
-        nestWinstonModuleUtilities.format.nestLike('my app', {
-          prettyPrint: true,
-        }),
-        format.colorize({ all: true }),
-      ),
-      transports: [
-        new transports.Console(),
-        // new transports.File({ filename: 'error.log', level: 'error' }),
-      ],
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
+    WinstonModule.forRoot(loggingConfigObj),
+    TypeOrmModule.forRoot(ormConfig),
     UserModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
