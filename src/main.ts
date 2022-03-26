@@ -1,8 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { NestjsWinstonLoggerService } from 'nestjs-winston-logger';
-import { format, transports } from 'winston';
-import * as path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

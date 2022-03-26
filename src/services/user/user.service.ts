@@ -3,19 +3,19 @@ import { ConfigService } from '@nestjs/config';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Test } from 'src/models/test.entity';
+import { User } from 'src/models/user.entity';
 import { Repository } from 'typeorm';
 import { Logger } from 'winston';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(Test) private testRepo: Repository<Test>,
+    @InjectRepository(User) private userRepository: Repository<User>,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private configService: ConfigService,
   ) {}
 
-  async findAllUsers(): Promise<Test[]> {
+  async findAllUsers(): Promise<User[]> {
     // this.logger.log('findAllUsers has been called');
     this.logger.info('findAllUsers has been called');
 
@@ -28,6 +28,6 @@ export class UserService {
     //   age: 23,
     // });
     // return 'some testing';
-    return this.testRepo.find();
+    return this.userRepository.find();
   }
 }
