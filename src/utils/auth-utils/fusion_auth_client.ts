@@ -1,38 +1,36 @@
 import FusionAuthClient from '@fusionauth/typescript-client';
+import { server } from 'src/configs';
 import { fusionAuth } from '../constants';
 
 class FusionAuthClientConfigs {
-  //   env_development =
+  private applicationId = server
+    ? fusionAuth.FUSIONAUTH_APPLICATION_ID
+    : process.env.FUSIONAUTH_APPLICATION_ID;
 
-  private clientId =
-    process.env.BACKEND_ENV === 'development'
-      ? fusionAuth.CLIENT_ID
-      : process.env.CLIENT_ID;
-
-  private clientSecret =
-    process.env.BACKEND_ENV === 'development'
-      ? fusionAuth.CLIENT_SECRET
-      : process.env.CLIENT_SECRET;
+  private clientSecret = server
+    ? fusionAuth.CLIENT_SECRET
+    : process.env.CLIENT_SECRET;
 
   private fusionAuthURL = process.env.FUSION_AUTH_URL_DOCKER
     ? process.env.FUSION_AUTH_URL_DOCKER
-    : process.env.BACKEND_ENV === 'development'
+    : server
     ? fusionAuth.FUSION_AUTH_URL
     : process.env.FUSION_AUTH_URL;
+
+  private fusionAuthJwtPublicKey = server
+    ? fusionAuth.FUSION_AUTH_JWT_PUBLIC_KEY
+    : process.env.FUSION_AUTH_JWT_PUBLIC_KEY;
 
   private client: FusionAuthClient;
 
   constructor() {
     this.client = new FusionAuthClient(
-      process.env.BACKEND_ENV === 'development'
-        ? fusionAuth.FUSION_AUTH_API_KEY
-        : process.env.FUSION_AUTH_API_KEY,
+      fusionAuth.FUSION_AUTH_API_KEY,
       this.fusionAuthURL,
     );
   }
-
-  getFusionClientId() {
-    return this.clientId;
+  getFusionAuthApplicationId() {
+    return this.applicationId;
   }
 
   getFusionClientSecret() {
@@ -41,6 +39,10 @@ class FusionAuthClientConfigs {
 
   getFusionAuthClient() {
     return this.client;
+  }
+
+  getFusionAuthJwtPublicKey() {
+    return this.fusionAuthJwtPublicKey;
   }
 }
 

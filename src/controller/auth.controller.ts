@@ -1,16 +1,11 @@
-import {
-  Controller,
-  Get,
-  Inject,
-  InternalServerErrorException,
-  Req,
-  Res,
-} from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Body, Controller, Inject, Post, Res } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { AuthService } from 'src/services/auth/auth.service';
 import { Logger } from 'winston';
-import { fusionAuth } from 'src/utils/constants';
+
+import { SignUpDto } from 'src/services/auth/dto/signup.dto';
+import { Response } from 'express';
+import { SignInDto } from 'src/services/auth/dto/signin.dto';
 @Controller('/auth')
 export class AuthController {
   constructor(
@@ -18,23 +13,28 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('/oauth-redirect')
-  async oAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    try {
-      await this.authService.fusionOAuthRedirectFlow(req, res);
+  @Post('/signup')
+  async signUp(@Res() res: Response, @Body() signUpDto: SignUpDto) {
+    const userId = await this.authService.signUpUser(res, signUpDto);
 
-      res.redirect(
-        process.env.BACKEND_ENV === 'development'
-          ? fusionAuth.FRONTEND_REDIRECT_URL
-          : process.env.PROD_FRONTEND_REDIRECT_URL,
-      );
-    } catch (err) {
-      this.logger.error(
-        `Error occured in fusion auth redirection flow. Error=${err}`,
-      );
-      throw new InternalServerErrorException(
-        'Some error occured in fusion auth redirect flow',
-      );
-    }
+    return res.status(201).send({
+      success: true,
+      response: {
+        id: userId,
+        message: 'Email Verification required',
+      },
+    });
+  }
+
+  @Post('/signin')
+  async singIn(@Res() res: Response, @Body() signInDto: SignInDto) {
+    const userId = await this.authService.signInUser(res, signInDto);
+
+    return res.status(200).json({
+      success: true,
+      response: {
+        id: userId,
+      },
+    });
   }
 }

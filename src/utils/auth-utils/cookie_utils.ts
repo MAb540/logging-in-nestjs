@@ -1,21 +1,16 @@
 import { cookieDomain } from '../constants';
 import { CookieOptions } from 'express';
 
-export const cookieOptions = (expiresTime: Date): CookieOptions => {
+export const cookieOptions = (): CookieOptions => {
   return {
     httpOnly: true,
     domain:
       process.env.BACKEND_ENV === 'development'
         ? cookieDomain.DEV_DOMAIN
         : cookieDomain.PROD_DOMAIN,
-    expires: expiresTime,
+    maxAge: 24 * 60 * 60 * 1000, // maxAge will get currentTime by default and add our given milliseconds to it
+    sameSite: 'none',
   };
-};
-
-export const tomorrowDate = (): Date => {
-  const currentDate = new Date();
-  const tomorrowDate = new Date(currentDate.getTime() + 86400000); // 86400000 milli seconds in 1 day
-  return tomorrowDate;
 };
 
 export const cookieConstants = {
